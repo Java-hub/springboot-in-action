@@ -1,6 +1,5 @@
 # springboot_in_action
-<img src="http://pic.deepinsea.top/images/2022/02/27/202202270654163.png" alt="img_green" style="zoom: 25%;" />
-
+![022707052224_0img_green](http://pic.deepinsea.top/images/2022/02/27/202202270705810.png)
 ## 介绍🖊️
 >有关SpringBoot的AOP、Slf4j日志门面以及对应日志实现、全局异常处理、自定义注解、自定义Banner、Druid数据库连接池、MyBatis数据库映射、PageHelper分页、Caffine本地缓存、SpringSecurity安全、Filter过滤器、Interceptor拦截器、SSO单点登录等功能的集成实现，自定义线程池、多线程、延时队列、定时任务、JVM调优、Redisson分布式锁、Lua限流、LRU缓存、雪花算法，同时包括springboot生态组件、Redis缓存、ElasticSearch搜索、Kafka消息队列、Prometheus监控、MinIO文件系统相关的代码以及源码级别的集成开发，Dockerfile与Docker-compose部署、Jenkins管道、Shell脚本、Nginx反向代理，配套对应的思维导图、文档和对应的代码，欢迎start🎈
 ## 目录🚥
