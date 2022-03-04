@@ -1,5 +1,4 @@
 # springboot_in_action
-
 <img src="http://pic.deepinsea.top/images/2022/02/27/202202270654163.png" width="400px" />
 
 ## 介绍🖊️
@@ -47,3 +46,6 @@
 | custom-dev进阶 | 包括多线程开发、自定义线程池、JVM调优、JVM诊断、分布式ID、限流算法、分布式锁、延时队列、定时任务、RPC、异步非阻塞编程、Reactot模型等 |
 | springboot组件 | 包括数据库映射、安全、SSO、本地缓存、消息队列、搜索等核心组件 |
 | other核心组件   | 包括Docker、Jenkins、Nginx等SpringBoot生态外的组件           |
+## 参考链接
+[springboot-example项目](https://github.com/L316476844/springbootexample)
+[JeeSpringCloudV2.5-互联网云快速开发框架](https://github.com/2014shijina2014/jeeSpringCloud)
