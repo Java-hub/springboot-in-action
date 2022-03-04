@@ -1,8 +1,8 @@
 # SpringBoot-In-Action
 
-<center class="half">
-	<img src="http://pic.deepinsea.top/images/2022/02/27/202202270654163.png" width="400px">
-</center>
+<div align=center>
+<img src="http://pic.deepinsea.top/images/2022/02/27/202202270654163.png" width="400px">
+</div>
 
 
 ## 介绍🖊️
