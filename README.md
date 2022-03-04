@@ -1,7 +1,7 @@
 # SpringBoot-In-Action
 
 <center class="half">
-	<img src="http://pic.deepinsea.top/images/2022/02/27/202202270654163.png" width="400px" style="margin:0 auth"/>
+	<img src="http://pic.deepinsea.top/images/2022/02/27/202202270654163.png" width="400px">
 </center>
 
 
