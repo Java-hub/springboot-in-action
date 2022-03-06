@@ -1,4 +1,4 @@
-# SpringBoot集成Mybatis-plus
+# SpringBoot快速集成Mybatis-plus
 
 <img src="https://baomidou.com/img/logo.svg" alt="img" style="zoom:25%;" />
 
