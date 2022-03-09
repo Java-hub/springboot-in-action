@@ -1,6 +1,6 @@
 # SpringBoot集成Mybatis-plus
 
-<img src="https://baomidou.com/img/logo.svg" alt="img" style="zoom:25%;" />
+<img src="https://baomidou.com/img/logo.svg" alt="img" style="zoom:25%;"  width="400px" />
 
 ## 简介
 
