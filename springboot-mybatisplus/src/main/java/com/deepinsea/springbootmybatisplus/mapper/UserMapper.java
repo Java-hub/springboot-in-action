@@ -1,7 +1,7 @@
 package com.deepinsea.springbootmybatisplus.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.deepinsea.springbootmybatisplus.model.User;
+import com.deepinsea.springbootmybatisplus.entity.User;
 import org.springframework.stereotype.Repository;
 
 /**

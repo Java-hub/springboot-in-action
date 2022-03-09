@@ -1,4 +1,4 @@
-package com.deepinsea.springbootmybatisplus.model;
+package com.deepinsea.springbootmybatisplus.entity;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/3/1 18:33
  */
 @Data
-public class User {
+public class User{
     private Long id;
     private String name;
     private Integer age;

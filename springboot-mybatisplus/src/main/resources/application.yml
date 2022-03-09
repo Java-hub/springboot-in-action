@@ -1,8 +1,22 @@
 server:
   port: 8080
 spring:
+  # mysql数据库连接配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/springboot-in-action?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=true
+    url: jdbc:mysql://localhost:3306/springboot-in-action?serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+mybatis-plus:
+  configuration:
+    #驼峰转下划线(默认开启)
+    map-underscore-to-camel-case: true
+    #打印日志
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+  # 详细配置(3.5.1)
+  mapper-locations: classpath:/com/deepinsea/mappers/*.xml
+  global-config:
+    db-config:
+      #主键类型(auto:"自增id"，assign_id:"全局唯一id(雪花算法,Long或者String类型)"，assign_uuid:"全局唯一id(
+      #       无中划线的uuid)",input:"自行设置id,默认null",none:"不设置主键id")
+      id-type: assign_id
