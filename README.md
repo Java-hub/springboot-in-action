@@ -34,8 +34,8 @@
 
 | 序号 | 组件         | 文档                                                         |
 | ---- | ------------ | ------------------------------------------------------------ |
-| 01   | mybatis-plus | [SpringBoot快速集成Mybatis-plus](springboot-mybatisplus/README.md)<br> |
-|      |              |                                                              |
+| 01   | mybatis-plus | [SpringBoot快速集成Mybatis-plus](springboot-mybatisplus/README.md) |
+| 02   | spring task  | [SpringBoot集成Spring Task快速定时任务](springboot-scheduletask/README.md) |
 |      |              |                                                              |
 |      |              |                                                              |
 

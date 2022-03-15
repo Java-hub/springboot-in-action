@@ -28,6 +28,5 @@ public class MybatisPlusConfig {
         //分页锁
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
-
     }
 }

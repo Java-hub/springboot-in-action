@@ -1,7 +1,9 @@
 package com.deepinsea.springbootmybatisplus.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.deepinsea.springbootmybatisplus.entity.User;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,4 +12,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserMapper extends BaseMapper<User> {
+
+    @Delete("delete from user group by id desc")
+    void delUser(Long id);
+
+    void delete(QueryWrapper<Object> id);
 }

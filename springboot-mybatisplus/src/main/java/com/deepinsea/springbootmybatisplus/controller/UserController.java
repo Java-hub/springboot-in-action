@@ -1,9 +1,11 @@
 package com.deepinsea.springbootmybatisplus.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.deepinsea.springbootmybatisplus.mapper.UserMapper;
 import com.deepinsea.springbootmybatisplus.entity.User;
+import com.deepinsea.springbootmybatisplus.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,15 @@ public class UserController {
     public List<User> getAll(){
         List<User> list = userMapper.selectList(null);
         return list;
+    }
+
+    /**
+     * @Description 条件构造器使用
+     */
+    @DeleteMapping("/delete")
+    public void delUser(){
+//        userMapper.deleteById("1502280305875148802");
+        userMapper.delete(new QueryWrapper<>().eq("id",7));
     }
 
     /**
