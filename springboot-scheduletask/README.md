@@ -1,8 +1,9 @@
 # SpringBoot集成Spring Task快速定时任务
 
 <div align=center>
-<img src="http://pic.deepinsea.top/images/2022/03/15/202203152208642.jpg" width="1000px" height="400px">
+<img src="http://pic.deepinsea.top/images/2022/03/15/202203152208642.jpg">
 </div>
+
 
 ## 背景
 
