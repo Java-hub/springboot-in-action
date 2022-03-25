@@ -16,7 +16,23 @@
 
 ​        你也可以理解为这是一个源码理解、技术组件实战和技术组件集成的项目。
 
-## 目录🚥
+## 🎯结构
+
+| 部件           | 简介                                                         |
+| -------------- | ------------------------------------------------------------ |
+| core基础       | 包括AOP、日志、自定义注解、异常、全局异常、数据库连接池、Cookie、Seesion等基础功能 |
+| custom-dev进阶 | 包括多线程开发、自定义线程池、JVM调优、JVM诊断、分布式ID、限流算法、分布式锁、延时队列、定时任务、RPC、异步非阻塞编程、Reactot模型等 |
+| springboot组件 | 包括数据库映射、安全、SSO、本地缓存、消息队列、搜索等核心组件 |
+| other核心组件   | 包括Docker、Jenkins、Nginx等SpringBoot生态外的组件           |
+
+## 🎨功能
+
+> 由点及面，由一个个小的功能组件组建起生产级的完整功能。-- 你所看到的惊艳，都曾被平庸历练。
+
+包括登录、搜索、社交、存储、办公、视频、推荐、支付和游戏等功能的底层技术实现，细粒度级别的技术实践。
+
+## 目录
+
 * springboot-aop
 * springboot-log
 * springboot-custom-dev
@@ -40,36 +56,6 @@
 * springboot-nginx
 * springboot-shells
 
-## 详细文档
-
-| 序号 | 组件         | 文档                                                         |
-| ---- | ------------ | ------------------------------------------------------------ |
-| 01   | mybatis-plus | [SpringBoot快速集成Mybatis-plus](springboot-mybatisplus/README.md) |
-| 02   | spring task  | [SpringBoot集成Spring Task快速定时任务](springboot-scheduletask/README.md) |
-|      |              |                                                              |
-|      |              |                                                              |
-
-## 功能🎨
-
-> 由点及面，由一个个小的功能组件组建起生产级的完整功能。-- 你所看到的惊艳，都曾被平庸历练。
-
-* 登录功能
-* 搜索功能
-* 社交功能
-* 存储功能
-* 办公功能
-* 视频功能
-* 推荐功能
-* 支付功能
-* 游戏功能
-## 架构🗼
-
-| 部件           | 简介                                                         |
-| -------------- | ------------------------------------------------------------ |
-| core基础       | 包括AOP、日志、自定义注解、异常、全局异常、数据库连接池、Cookie、Seesion等基础功能 |
-| custom-dev进阶 | 包括多线程开发、自定义线程池、JVM调优、JVM诊断、分布式ID、限流算法、分布式锁、延时队列、定时任务、RPC、异步非阻塞编程、Reactot模型等 |
-| springboot组件 | 包括数据库映射、安全、SSO、本地缓存、消息队列、搜索等核心组件 |
-| other核心组件   | 包括Docker、Jenkins、Nginx等SpringBoot生态外的组件           |
 ## 参考链接
 [springboot-example项目](https://github.com/L316476844/springbootexample) <br>
 [JeeSpringCloudV2.5-互联网云快速开发框架](https://github.com/2014shijina2014/jeeSpringCloud)
