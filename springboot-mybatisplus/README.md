@@ -1,12 +1,12 @@
 # SpringBoot集成Mybatis-plus
 
-<img src="https://baomidou.com/img/logo.svg" alt="img" style="zoom:25%;"  width="400px" />
+<img src="https://baomidou.com/img/logo.svg" alt="img" style="zoom:25%;" />
 
 ## 简介
 
 [MyBatis-Plus](https://github.com/baomidou/mybatis-plus)（简称 MP）是一个 [MyBatis](https://www.mybatis.org/mybatis-3/)的增强工具，在 MyBatis 的基础上只做增强不做改变，为简化开发、提高效率而生。
 
-因此，mybatis-plus包含mybatis的所有功能，相当于引入了mybatis。
+因此，mybatis-plus包含mybatis的所有功能，因此无需再次引入mybatis。
 
 >  功能
 
@@ -235,11 +235,286 @@ User(id=5, name=Billie, age=24, email=test5@baomidou.com)
 
 从以上步骤中，我们可以看到集成`MyBatis-Plus`非常的简单，只需要引入 starter 工程，并配置 mapper 扫描路径即可。
 
-## 进阶使用
+## 插件使用
 
 ### 1.自动生成主键
 
-### 2.代码生成器使用
+> 实现原理：除了雪花id，其他自增和UUID算法都是在表ID本身设置了自增的情况下传递一个null值自动生成id，然后再使用mybatis-plus的id生成器生成的id替换数据库id(自增就不用替换了)；而雪花算法，则是在内存中直接生成然后就设置为数据库id的值。
 
-### 3.分页插件使用
+在使用自动生成主键功能前，**先设置数据id主键为自增ID**，否则会导致主键id插入null错误(主键设置了不允许null的情况下)。
+
+两种id生成配置策略：1. 全局配置生成id类型；2. 局部表实体配置生成id类型。
+
+**全局id生成策略**
+
+```yaml
+mybatis-plus:
+  global-config:
+    db-config:
+      #主键类型(auto:"自增id"，assign_id:"全局唯一id(雪花算法,Long或者String类型)"，assign_uuid:"全局唯一id(
+      #       无中划线的uuid)",input:"自行设置id,默认null",none:"不设置主键id")
+      id-type: assign_id
+```
+
+**局部id生成策略**
+
+> 使用@TableId注解配置id生成类型
+
+user.java
+
+```java
+@EqualsAndHashCode(callSuper = false)  
+  @Data  
+  public class User extends Model<User> {  
+   @TableId(type = IdType.AUTO)  
+   private Long id;  
+   @TableField(condition = SqlCondition.LIKE)  
+   private String name;  
+   @TableField(condition = "%s &gt; #{%s}")  
+   private Integer age;  
+   private String email;  
+   private Long managerId;  
+   private LocalDateTime createTime;  
+  
+```
+
+同时配置了这两种策略时，**局部**生成id类型配置优先级**大于全局**id生成类型配置。
+
+**测试使用**
+
+UserController.java
+
+```java
+    /**
+     * @Description 自动生成主键id(雪花算法)
+     */
+    @PostMapping("/add")
+    public void addUser(){
+        User user = new User();
+        user.setName("testIdType");
+        userMapper.insert(user);
+        System.out.println("主键id为：" + user.getId());
+    }
+```
+
+**注意的点**
+
+* 局部字段的ID生成策略优先级高于全局的id生成策略
+* 使用雪花算法生成ID后，再次切换为主键自增的ID生成策略后会导致起始序列过大(没有重置起始序列值)
+* 另外如果原先指定了@TableId(type = IdType.AUTO)，然后去除这部分代码，会发生Tuncate操作(即清空表并重置ID起始值)
+
+### 2.分页插件使用
+
+> mybatis-plus分页插件旧版API为PaginationInterceptor，在3.5.1新版API为MybatisPlusInterceptor。
+
+mybatis-plus的分页插件也是内置的，无需添加其他依赖。
+
+**旧版分页插件**
+
+MybatisPlusPageConfig.java
+
+```java
+@Configuration
+public class MybatisPlusPageConfig {
+
+    /**
+     * 旧版本配置(已过时)
+     */
+    /*@Bean
+    public PaginationInterceptor paginationInterceptor(){
+        return new PaginationInterceptor();
+    }*/
+
+    /**
+     * 新的分页插件（推荐）
+     */
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
+    }
+}
+```
+
+**新版分页插件**
+
+MybatisPlusConfig.java
+
+```java
+/**
+ * Mybatis-plus配置类
+ */
+@EnableTransactionManagement
+@Configuration
+@MapperScan(basePackages = "com.deepinsea.springbootmybatisplus.mapper")
+public class MybatisPlusConfig {
+
+    /**
+     * Mybatis-Plus 3.5.1新版分页插件API
+     */
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        //乐观锁
+        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        //分页锁
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
+    }
+}
+```
+
+**测试使用**
+
+UserController.java
+
+```java
+    /**
+     * @Description 内置分页插件的使用
+     */
+    @GetMapping("/page")
+    public Page<User> getByPage() {
+        Page<User> users = userMapper.selectPage(new Page<>(1, 2), null);
+        System.out.println(users.getRecords());
+        return users;
+    }
+```
+
+### 3.条件构造器使用
+
+> mybatis-plus中有查询条件构造器QueryWrapper，可以在对常见的CRUD条件进行一些常见的构造，真实API在AbstractWrapper类中(采用了工厂模式进行顶层API设计)。
+
+可以封装sql对象，包括where条件，order by排序，select哪些字段等等 查询包装类，可以封装多数查询条件，泛型指定返回的实体类。
+
+**测试使用**
+
+SpringbootMybatisplusApplicationTests.java
+
+```java
+    @Test
+    public void testSelect() {
+        System.out.println(("----- selectAll method test ------"));
+        List<User> userList = userMapper.selectList(null); # 查询全表数据
+        userList.forEach(System.out::println);
+    }
+```
+
+UserController.java
+
+```java
+    /**
+     * @Description 条件构造器使用
+     */
+    @DeleteMapping("/delete")
+    public void delUser(){
+        // 1. 根据ID删除
+//        userMapper.deleteById(6);
+//        userMapper.deleteBatchIds(Collections.singleton(7));
+        // 2. 根据map中的参数作为条件删除
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("name", "testIdType");
+//        map.put("id", 7);
+//        userMapper.deleteByMap(map);
+        // 3. 条件构造器为参数的进行删除
+        // ①普通条件构造器(注意不要添加<>，Entity转Object会报错)
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("id",6);
+        userMapper.delete(wrapper);
+        // ②lambda表达式条件构造器
+//        LambdaQueryWrapper<User> lambdaQuery = Wrappers.lambdaQuery();
+//        lambdaQuery.eq(User::getId, 7).or().eq(User::getName, "testIdType");
+//        userMapper.delete(lambdaQuery);
+    }
+```
+
+### 4.代码生成器使用
+
+**引入依赖**
+
+> 说明：freemarker是作为代码生成器的模板依赖，必须存在；而knife4j是兼容生成的代码带Swagger注释
+
+pom.xml
+
+```xml
+        <!-- mybatis-plus代码生成器 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+        <!-- freemarker模板 -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.31</version>
+        </dependency>
+        <!-- knife4j依赖 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>2.0.7</version>
+        </dependency>
+```
+
+**mybatis-plus 3.x版本**
+
+SpringbootMybatisPlusApplication.java
+
+```java
+        List<String> schemas = new ArrayList<>(); // 数据表列表
+        schemas.add("user");
+        FastAutoGenerator.create("jdbc:mysql://localhost:3306/springboot-in-action?serverTimezone=Asia/Shanghai",
+                        "root", "123456")
+                //全局配置
+                .globalConfig(builder -> {
+                    builder.author("deepinsea")                                              // 设置作者
+                            .enableSwagger()                                                // 开启 swagger 模式
+                            .fileOverride()                                                 // 覆盖已生成文件
+                            .disableOpenDir()                                               // 禁止打开输出目录
+                            .dateType(DateType.TIME_PACK)                                   // 时间策略
+                            .commentDate("yyyy-MM-dd")                                      // 注释日期
+                            .outputDir(System.getProperty("user.dir")
+                                    + "/src/main/java");                           // 指定输出目录
+                })
+                //包配置
+                .packageConfig(builder -> {
+                    builder.parent("generator")                                    // 设置父包名(也可以生成目录)
+                            //.moduleName("system")                                     // 设置父包模块名
+//                            .entity("model")
+//                            .service("service")
+//                            .controller("controller")
+//                            .mapper("mapper")                                           // Mapper 包名
+//                            .xml("mapper")                                              // Mapper XML 包名
+                            .pathInfo(Collections.singletonMap(
+                                    OutputFile.xml,
+                                    System.getProperty("user.dir")
+                                            + "/src/main/resources/mapper"));           // 设置mapperXml生成路径
+
+                })
+                //策略配置
+                .strategyConfig(builder -> {
+                    builder.addInclude(schemas)                                          // 设置需要生成的表名
+                            .addTablePrefix("")                                       // 表前缀过滤
+                            .entityBuilder()                                            // 切换至Entity设置
+                            .versionColumnName("version")                               // 乐观锁字段名(数据库)
+                            .logicDeleteColumnName("isDeleted")                         // 逻辑删除字段名(数据库)
+                            .enableLombok()                                             // lombok生效
+                            .enableTableFieldAnnotation()                               // 所有实体类加注解
+                            .serviceBuilder()                                           // 切换至Service层设置
+                            .formatServiceFileName("%sService")                         // 设定后缀名
+                            .formatServiceImplFileName("%sServiceImpl");                // 设定后缀名
+                })
+                //模板配置
+                .templateEngine(new FreemarkerTemplateEngine())                         // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+                .execute();
+```
+
+**测试使用**
+
+> 点击运行项目即可后台静默在src主目录生成一个generate文件夹和resource目录生成一个mapper文件夹，代码文件都在这两个文件夹里
+
+![image-20220326034859941](http://pic.deepinsea.top/images/2022/03/26/202203260349107.png)
+
+> 注意：因为上面关闭了打开目录的开关，所以要看到文件目录生成，需要手动关闭项目才能刷新看到！
 
