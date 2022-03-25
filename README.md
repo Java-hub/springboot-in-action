@@ -33,6 +33,8 @@
 
 ## 目录
 
+项目的每一个子项目都是一个完整的项目，因此可以直接用编辑器打开，项目的技术文档都在对应子项目的根目录下。
+
 * springboot-aop
 * springboot-log
 * springboot-custom-dev
