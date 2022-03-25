@@ -1,11 +1,12 @@
 package com.deepinsea.springbootmybatisplus;
 
-import com.deepinsea.springbootmybatisplus.mapper.UserMapper;
 import com.deepinsea.springbootmybatisplus.entity.User;
+import com.deepinsea.springbootmybatisplus.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.net.SocketException;
 import java.util.List;
 
 @SpringBootTest
@@ -22,7 +23,7 @@ class SpringbootMybatisplusApplicationTests {
     }
 
     @Test
-    void contextLoads() {
+    void contextLoads() throws SocketException {
     }
 
 }

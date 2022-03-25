@@ -36,8 +36,23 @@ public class UserController {
      */
     @DeleteMapping("/delete")
     public void delUser(){
-//        userMapper.deleteById("1502280305875148802");
-        userMapper.delete(new QueryWrapper<>().eq("id",7));
+        // 1. 根据ID删除
+//        userMapper.deleteById(6);
+//        userMapper.deleteBatchIds(Collections.singleton(7));
+        // 2. 根据map中的参数作为条件删除
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("name", "testIdType");
+//        map.put("id", 7);
+//        userMapper.deleteByMap(map);
+        // 3. 条件构造器为参数的进行删除
+        // ①普通条件构造器(注意不要添加<>，Entity转Object会报错)
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("id",6);
+        userMapper.delete(wrapper);
+        // ②lambda表达式条件构造器
+//        LambdaQueryWrapper<User> lambdaQuery = Wrappers.lambdaQuery();
+//        lambdaQuery.eq(User::getId, 7).or().eq(User::getName, "testIdType");
+//        userMapper.delete(lambdaQuery);
     }
 
     /**
