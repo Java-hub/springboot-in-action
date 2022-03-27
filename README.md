@@ -75,4 +75,5 @@
 
 ## 参考链接
 [springboot-example项目](https://github.com/L316476844/springbootexample) <br>
-[JeeSpringCloudV2.5-互联网云快速开发框架](https://github.com/2014shijina2014/jeeSpringCloud)
+[JeeSpringCloudV2.5-互联网云快速开发框架](https://github.com/2014shijina2014/jeeSpringCloud) <br>
+[springcloud+dubbo构建微服务秒杀项目](https://github.com/techa03/goodsKill) <br>
