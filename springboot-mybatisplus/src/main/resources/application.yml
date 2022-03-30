@@ -20,3 +20,5 @@ mybatis-plus:
       #主键类型(auto:"自增id"，assign_id:"全局唯一id(雪花算法,Long或者String类型)"，assign_uuid:"全局唯一id(
       #       无中划线的uuid)",input:"自行设置id,默认null",none:"不设置主键id")
       id-type: auto
+      # 数据库大写下划线转换
+      capital-mode: true

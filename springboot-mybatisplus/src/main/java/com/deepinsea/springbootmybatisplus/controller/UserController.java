@@ -61,6 +61,7 @@ public class UserController {
     @PostMapping("/add")
     public void addUser(){
         User user = new User();
+//        user.setId(System.currentTimeMillis());
         user.setName("testIdType");
         userMapper.insert(user);
         System.out.println("主键id为：" + user.getId());

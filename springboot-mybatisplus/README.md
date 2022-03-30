@@ -301,6 +301,23 @@ UserController.java
 
 * 局部字段的ID生成策略优先级高于全局的id生成策略
 * 使用雪花算法生成ID后，再次切换为主键自增的ID生成策略后会导致起始序列过大(没有重置起始序列值)
+
+> 解决方法:
+>
+> 1.查询出行数，并设置自增id初始值为行数+1；
+>
+> select count(id) from user; 
+> alter table user AUTO_INCREMENT=8;
+>
+> 应用场景：已经存在关联外键的表数据或者不能变动的数据，但是需要节约id内存空间，一般为生产环境数据。因此提供一个保留原id只重置自增值的id切换方法，这种方式没有解决id断层问题，但是重置了自增id并保留了之前雪花算法生成的id。
+>
+> 2.先删除主键再添加，重新设置自增长。
+>
+> alter table user drop id;
+> alter table user add id bigint(20) primary key auto_increment FIRST;
+>
+> 应用场景：在需要对更换id生成策略的所有数据进行id序列重置，但是不会删除掉原表的数据，一般为开发、测试和预生产环境。因此在保留表数据的前提下，重新排序所有id。
+
 * 另外如果原先指定了@TableId(type = IdType.AUTO)，然后去除这部分代码，会发生Tuncate操作(即清空表并重置ID起始值)
 
 ### 2.分页插件使用
