@@ -30,6 +30,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-plus-extension</artifactId>
+                    <groupId>com.baomidou</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- mybatis-plus代码生成器 -->
         <dependency>
@@ -47,12 +53,15 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.7</version>
+<!--            <version>2.0.7</version>-->
+<!--            <version>2.0.9</version>-->
+            <version>3.0.3</version>
         </dependency>
         <!-- mysql连接器 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <!-- 不作用在编译时，但会作用在运行和测试时，如JDBC驱动，适用运行和测试阶段 -->
             <scope>runtime</scope>
         </dependency>
         <!-- spring自动配置依赖 -->

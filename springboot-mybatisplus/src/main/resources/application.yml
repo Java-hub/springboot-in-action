@@ -7,6 +7,10 @@ spring:
     url: jdbc:mysql://localhost:3306/springboot-in-action?serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+  mvc:
+    pathmatch:
+      # 配置策略
+      matching-strategy: ant_path_matcher
 mybatis-plus:
   configuration:
     #驼峰转下划线(默认开启)
